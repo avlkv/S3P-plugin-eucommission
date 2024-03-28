@@ -1,0 +1,45 @@
+{
+"plugin": {
+    "reference": "eucommission",
+    "type": "SOURCE",
+    "filenames": ["eucommission.py"],
+    "localstorage": true
+},
+"task": {
+    "log": -1,
+    "trigger": {
+      "type": "SCHEDULE",
+      "interval": "7 days"
+    }
+},
+"middleware": {
+    "modules": [
+        { "order": 1, "name": "TimezoneSafeControl", "critical": true, "params": {}},
+        { "order": 2, "name": "CutJunkCharactersFromDocumentText", "critical": true, "params": {
+            "fields": ["text", "abstract"]
+        }},
+        { "order": 3, "name": "FilterOnlyNewDocumentWithDB", "critical": true, "params": {}},
+        { "order": 4, "name": "SaveDocumentToDB", "critical": true, "params": {}}
+    ],
+    "bus": {
+        "entities": []
+    }
+},
+"payload": {
+    "file": "eucommission.py",
+    "class": "EUCOMMISSION",
+    "entry": {
+        "point": "content",
+        "params": [
+          {"key": "webdriver", "value": {"type": "module", "name": "WebDriver"}},
+          {"key": "max_count_documents", "value": {"type": "const", "value": 200}},
+          {"key": "policies", "value": {"type": "const", "value": ["Banking and financial services",
+            "Digital Economy and Society",
+            "Economy, finance and the euro",
+            "Fraud prevention"]
+          ]}}
+        ]
+    },
+    "additional_methods": null
+}
+}
