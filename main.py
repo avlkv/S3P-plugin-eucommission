@@ -1,6 +1,6 @@
 from selenium import webdriver
 from logging import config
-from eucommission import EUCOMMISSSION
+from eucommission import EUCOMMISSION
 import pickle
 import pandas
 
@@ -41,7 +41,7 @@ policies = ["Banking and financial services",
             "Digital Economy and Society",
             "Economy, finance and the euro",
             "Fraud prevention"]
-parser = EUCOMMISSSION(driver(), max_count_documents=30, policies=policies)
+parser = EUCOMMISSION(driver(), max_count_documents=30, policies=policies)
 docs: list[SPP_document] = parser.content()
 
 try:
