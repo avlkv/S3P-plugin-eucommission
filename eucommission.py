@@ -103,23 +103,16 @@ class EUCOMMISSION:
             self.logger.debug(policy.text)
             if policy.text in self.POLICIES:
                 policy.click()
-                # self.driver.execute_script('arguments[0].click()', policy)
-
-        # policy_list = self.driver.find_element(By.XPATH,
-        #                                        '//label[@for = \'filter-parea\']/..//div[@class = \'ecl-select__multiple\']')
-
         self.driver.execute_script("arguments[0].scrollIntoView();", policy_list)
         time.sleep(0.5)
 
         self.driver.execute_script('arguments[0].click()', policy_list)
-        # policy_list.click()
 
         submit_btn = self.driver.find_element(By.XPATH, '//button[@type = \'submit\']')
 
         self.driver.execute_script("arguments[0].scrollIntoView();", submit_btn)
         time.sleep(0.5)
 
-        # self.driver.execute_script('arguments[0].click()', submit_btn)
         submit_btn.click()
 
         while True:
@@ -141,8 +134,8 @@ class EUCOMMISSION:
                 self.driver.execute_script("window.open('');")
                 self.driver.switch_to.window(self.driver.window_handles[1])
 
-                self.driver.get(web_link)
-                self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.ecl-page-header__title')))
+                self._initial_access_source(web_link, 3)
+                self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'ecl-container')))
 
                 self.logger.debug(f'Enter {web_link}')
 
@@ -185,6 +178,11 @@ class EUCOMMISSION:
         # ---
         # ========================================
         ...
+
+    def _initial_access_source(self, url: str, delay: int = 2):
+        self.driver.get(url)
+        self.logger.debug('Entered on web page ' + url)
+        time.sleep(delay)
 
     def _find_document_text_for_logger(self, doc: SPP_document):
         """
